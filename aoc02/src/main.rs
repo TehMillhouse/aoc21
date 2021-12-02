@@ -21,9 +21,17 @@ fn main() {
     let filename = &args[1];
 
     let mut pos: (i32, i32) = (0, 0);
+    let mut aim: i32 = 0;
     for cmd in parse(Path::new(filename)) {
-        dbg!(cmd);
-    }
+        match &cmd.dir {
+            Dir::Down => aim += cmd.dist,
+            Dir::Up => aim -= cmd.dist,
+            Dir::Forward => 
+                pos = (pos.0 + cmd.dist, pos.1 + aim * cmd.dist),
+        };
+    };
+    println!("({}, {})", pos.0, pos.1);
+    println!("{}", pos.0 * pos.1);
 
 }
 
