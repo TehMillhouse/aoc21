@@ -37,15 +37,25 @@ fn main() {
 }
 
 fn do_search_round(mx: &mut Vec<String>, which_pattern: usize, bit: usize) -> Vec<String> {
+    //print_vec(mx);
     let mut next = Vec::new();
     let tuple = gamma_epsilon(mx);
     let pattern = if which_pattern == 0 { tuple.0 } else { tuple.1 };
+    //println!("pattern is {:}", pattern);
     for candidate in mx.iter() {
         if candidate_matches(&candidate, &pattern, bit) {
             next.push(candidate.clone());
         }
     }
     next
+}
+
+fn print_vec(mx: &Vec<String>) {
+    println!("===remaining===");
+    for line in mx.iter() {
+        println!("{}", line)
+    }
+    println!("=======");
 }
 
 fn candidate_matches(cand: &String, pattern: &String, bit: usize) -> bool {
@@ -64,7 +74,7 @@ fn gamma_epsilon(mx: &mut Vec<String>) -> (String, String) {
     let mut gamma = String::new();
     let mut epsilon = String::new();
     for one_count in one_counts.iter() {
-        if one_count == &(line_cnt / 2) {
+        if line_cnt % 2 == 0 && one_count == &(line_cnt / 2) {
             gamma.push('1');
             epsilon.push('0');
             continue;
